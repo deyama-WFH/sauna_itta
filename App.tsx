@@ -1,36 +1,48 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+
+import type { RootStackParamList } from './src/navigation/types';
+import { CreateLogScreen } from './src/screens/CreateLogScreen';
+import { EditLogScreen } from './src/screens/EditLogScreen';
+import { HomeScreen } from './src/screens/HomeScreen';
+import { LogDetailScreen } from './src/screens/LogDetailScreen';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>サウナ行った</Text>
-      <Text style={styles.description}>
-        サウナ後でもかんたんに記録できる、ととのいログ
-      </Text>
+    <NavigationContainer>
       <StatusBar style="dark" />
-    </View>
+      <Stack.Navigator
+        screenOptions={{
+          contentStyle: { backgroundColor: '#f7f4ee' },
+          headerShadowVisible: false,
+          headerStyle: { backgroundColor: '#f7f4ee' },
+          headerTintColor: '#2f3a34',
+        }}
+      >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CreateLog"
+          component={CreateLogScreen}
+          options={{ title: '今日のサウナ' }}
+        />
+        <Stack.Screen
+          name="LogDetail"
+          component={LogDetailScreen}
+          options={{ title: 'サウナ記録' }}
+        />
+        <Stack.Screen
+          name="EditLog"
+          component={EditLogScreen}
+          options={{ title: '記録を編集' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f7f4ee',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-  },
-  title: {
-    color: '#2f3a34',
-    fontSize: 32,
-    fontWeight: '700',
-  },
-  description: {
-    color: '#667069',
-    fontSize: 16,
-    lineHeight: 24,
-    marginTop: 12,
-    textAlign: 'center',
-  },
-});
