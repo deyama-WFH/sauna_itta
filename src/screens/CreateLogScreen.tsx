@@ -1,20 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export const CreateLogScreen = () => (
-  <View style={styles.container}>
-    <Text style={styles.text}>記録フォームを準備中です。</Text>
-  </View>
+import { SaunaLogForm } from '../components/SaunaLogForm';
+import type { RootStackParamList } from '../navigation/types';
+import { createSaunaLog } from '../storage/saunaLogStorage';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'CreateLog'>;
+
+export const CreateLogScreen = ({ navigation }: Props) => (
+  <SaunaLogForm
+    onSubmit={async (input) => {
+      const createdLog = await createSaunaLog(input);
+      navigation.replace('LogDetail', { logId: createdLog.id });
+    }}
+    submitLabel="記録する"
+  />
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 24,
-  },
-  text: {
-    color: '#667069',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-});
