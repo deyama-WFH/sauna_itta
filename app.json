@@ -7,6 +7,7 @@
     "icon": "./app_logo.png",
     "userInterfaceStyle": "light",
     "ios": {
+      "icon": "./app_logo.png",
       "supportsTablet": false,
       "bundleIdentifier": "com.deyamawfh.saunaitta"
     },
