@@ -15,7 +15,9 @@
     "react-native-screens": "4.25.2"
   },
   "devDependencies": {
+    "@types/node": "^25.9.2",
     "@types/react": "~19.2.2",
+    "tsx": "^4.22.4",
     "typescript": "~6.0.3"
   },
   "scripts": {
@@ -23,7 +25,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/utils/generateXPostText.test.ts"
   },
   "private": true
 }
