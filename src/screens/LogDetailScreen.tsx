@@ -6,6 +6,7 @@ import {
   Alert,
   Pressable,
   ScrollView,
+  Share,
   StyleSheet,
   Text,
   View,
@@ -22,6 +23,7 @@ import {
   getSaunaLogById,
 } from '../storage/saunaLogStorage';
 import type { SaunaLog } from '../types/saunaLog';
+import { generateXPostText } from '../utils/generateXPostText';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'LogDetail'>;
 
@@ -93,6 +95,18 @@ export const LogDetailScreen = ({ navigation, route }: Props) => {
     );
   };
 
+  const shareLog = async () => {
+    if (!log) {
+      return;
+    }
+
+    try {
+      await Share.share({ message: generateXPostText(log) });
+    } catch {
+      Alert.alert('共有画面を開けませんでした', 'もう一度お試しください。');
+    }
+  };
+
   if (isLoading) {
     return (
       <View style={styles.centered}>
@@ -143,6 +157,16 @@ export const LogDetailScreen = ({ navigation, route }: Props) => {
       </View>
 
       <View style={styles.actions}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => void shareLog()}
+          style={({ pressed }) => [
+            styles.shareButton,
+            pressed && styles.buttonPressed,
+          ]}
+        >
+          <Text style={styles.shareButtonText}>Xに投稿する</Text>
+        </Pressable>
         <Pressable
           accessibilityRole="button"
           onPress={() =>
@@ -226,6 +250,17 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   primaryButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  shareButton: {
+    alignItems: 'center',
+    backgroundColor: '#2f3a34',
+    borderRadius: 14,
+    padding: 16,
+  },
+  shareButtonText: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: '700',
